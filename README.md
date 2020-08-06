@@ -1,5 +1,5 @@
 # DuReader-BERT-MRC-Training
-in developing ...
+developing ...
 ### prepare data(zh-TW)
 ```bash
 $ sh download_dataset.sh
