@@ -1,6 +1,6 @@
 from lib.data_procress import load_data
 from lib.MLDataModel import MLDataModel
-from special_token_def import NO_ANSWER
+from lib.special_token_def import NO_ANSWER
 from tqdm import tqdm
 import os
 
