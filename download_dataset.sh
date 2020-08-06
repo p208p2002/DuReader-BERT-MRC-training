@@ -1,0 +1,1 @@
+wget https://dataset-bj.cdn.bcebos.com/dureader/dureader_raw.zip
