@@ -1,5 +1,5 @@
 import json
-def load_data(path):
+def load_data_from_raw(path):
     '''
     path: path to daset dir(dev/test/train)
     ---
