@@ -1,1 +1,2 @@
 tqdm
+transformers>=3.0
