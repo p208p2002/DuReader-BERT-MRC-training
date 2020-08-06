@@ -1,0 +1,1 @@
+NO_ANSWER = '[NANS]'

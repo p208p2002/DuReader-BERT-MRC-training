@@ -2,3 +2,5 @@
 *__py*/
 s2tw
 dataset/
+*.csv
+*json
