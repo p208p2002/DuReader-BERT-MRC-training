@@ -5,6 +5,9 @@ from tqdm import tqdm
 import os
 
 def write_file(f,q,a,c,separate=','):
+    q = q.replace(separate,"，")
+    a = a.replace(separate,"，")
+    c = c.replace(separate,"，")
     f.write(q+separate+a+separate+c+'\n')
 
 def convert_to_mrc_foramt(dataset_path):    

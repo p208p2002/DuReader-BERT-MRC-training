@@ -1,1 +1,6 @@
 NO_ANSWER = '[NANS]'
+SEP_ANSWER_START = '[SEPA_S]'
+SEP_ANSWER_END = '[SEPA_E]'
+CLS = '[CLS]'
+SEP = '[SEP]'
+PAD = '[PAD]'
