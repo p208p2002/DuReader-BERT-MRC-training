@@ -3,7 +3,7 @@ from lib.tokenizer import init_tokenizer
 from lib.data_procress import load_data_from_mrc as load_data
 from lib.special_token_def import SEP_ANSWER_START,SEP_ANSWER_END,SEP,CLS
 
-def make_training_data_set(f,mrc_csv_paths):
+def make_training_data_set(f,mrc_csv_paths,data_limit=None):
     #
     max_length = 384 # Q + C 長度限制
     stride = int(max_length/2)
@@ -12,6 +12,7 @@ def make_training_data_set(f,mrc_csv_paths):
     
     tokenizer = init_tokenizer("voidful/albert_chinese_tiny")
 
+    data_limit_count = 0
     for mrc_csv_path in mrc_csv_paths:
         for data in load_data(mrc_csv_path):
             #
@@ -43,13 +44,16 @@ def make_training_data_set(f,mrc_csv_paths):
 
                 #
                 context_padding += stride
+                data_limit_count += 1
+                if(data_limit is not None and data_limit_count >= data_limit):
+                    return
 
 if __name__ == "__main__":
     os.system('rm -rf training_dataset/&&mkdir training_dataset')
 
     with open("training_dataset/dev.data.cht.txt",'w',encoding = 'utf-8') as f:
         # make_training_data_set(f,['mrc_dataset/mrc_search.dev.cht.csv','mrc_dataset/mrc_zhidao.dev.cht.csv'])
-        make_training_data_set(f,['mrc_dataset/mrc_search.dev.cht.csv'])
+        make_training_data_set(f,['mrc_dataset/mrc_search.dev.cht.csv'], data_limit = 500)
 
     with open("training_dataset/train.data.cht.txt",'w',encoding = 'utf-8') as f:
         make_training_data_set(f,['mrc_dataset/mrc_search.train.cht.csv','mrc_dataset/mrc_zhidao.train.cht.csv'])
