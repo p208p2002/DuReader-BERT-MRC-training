@@ -46,11 +46,9 @@ if __name__ == "__main__":
     os.system('rm -rf mrc_dataset/&&mkdir mrc_dataset')
     dataset_paths = [
         "./dataset/devset/search.dev.cht.json",
-        "./dataset/devset/zhidao.dev.json",
-        # "./dataset/testset/search.test.json",
-        # "./dataset/testset/zhidao.test.json",
-        "./dataset/trainset/search.train.json",
-        "./dataset/trainset/zhidao.train.json" 
+        "./dataset/devset/zhidao.dev.cht.json",
+        "./dataset/trainset/search.train.cht.json",
+        "./dataset/trainset/zhidao.train.cht.json" 
     ]
     for dataset_path in dataset_paths:
         convert_to_mrc_foramt(dataset_path)
