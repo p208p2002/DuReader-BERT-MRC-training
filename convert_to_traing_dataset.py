@@ -42,9 +42,8 @@ def make_training_data_set(f,mrc_csv_paths,data_limit=None):
                 context_string = tokenizer.convert_tokens_to_string(_c_tokens).replace(" ","")
                 answer_string = tokenizer.convert_tokens_to_string(a_tokens).replace(" ","")
                 _write_str = CLS+question_string+SEP+context_string+SEP+SEP_ANSWER_START+answer_string+SEP_ANSWER_END
-                if len(tokenizer.tokenize(_write_str)) > 512:
-                    continue
-                f.write(_write_str+"\n")
+                if len(tokenizer.tokenize(_write_str)) <= 512:
+                    f.write(_write_str+"\n")
 
                 #
                 context_padding += stride
