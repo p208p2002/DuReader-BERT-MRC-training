@@ -48,7 +48,7 @@ if __name__ == "__main__":
                 labels = batch_dict[3]
                 )
             loss,logits = outputs[:2]
-            if(device =='cuda' and device,torch.cuda.device_count()>1):
+            if torch.cuda.device_count()>1:
                 loss = loss.mean()
             loss.sum().backward()
             optimizer.step()
