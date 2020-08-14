@@ -36,7 +36,7 @@ class DURDataset(Dataset):
 
         # padding
         len_of_output_tokens_without_padding = len(output_tokens)
-        while len(output_tokens)<512:
+        while len(output_tokens) < 512:
             output_tokens.append(PAD)
         assert len(output_tokens) == 512
         
