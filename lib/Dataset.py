@@ -46,9 +46,9 @@ class DURDataset(Dataset):
         # inputs
         input_ids = torch.LongTensor(self.tokenizer.convert_tokens_to_ids(output_tokens))
 
-        token_type_ids = [0]*len(question_tokens + [SEP]) + [1]*len(context_tokens + [SEP]) + [2]*len(answer_span_tokens)
+        token_type_ids = [0]*len(question_tokens + [SEP]) + [1]*len(context_tokens + [SEP]) + [0]*len(answer_span_tokens)
         while len(token_type_ids) < 512:
-            token_type_ids.append(3)
+            token_type_ids.append(1)
         assert len(token_type_ids) == 512
         token_type_ids = torch.LongTensor(token_type_ids)
         
