@@ -15,7 +15,7 @@ class DURDataset(Dataset):
         assert len(data_line) == 3
         q,c,a = data_line
         answer_span = a.replace(SEP_ANSWER_START,"")
-        answer_span_tokens = tokenizer.tokenize(answer_span)
+        answer_span_tokens = self.tokenizer.tokenize(answer_span)
         random_mask_index = randint(0,len(answer_span_tokens)-1)
         
         #
@@ -23,8 +23,8 @@ class DURDataset(Dataset):
         answer_span_tokens[random_mask_index] = MASK
 
         #
-        question_tokens = tokenizer.tokenize(q)
-        context_tokens = tokenizer.tokenize(c)
+        question_tokens = self.tokenizer.tokenize(q)
+        context_tokens = self.tokenizer.tokenize(c)
         answer_span_tokens = [SEP_ANSWER_START] + answer_span_tokens
         output_tokens = question_tokens + [SEP] + context_tokens + [SEP] +answer_span_tokens
         # print(output_tokens)
@@ -37,33 +37,35 @@ class DURDataset(Dataset):
 
         #
         output_tokens_mask_index = output_tokens.index(MASK)
-        true_label_id = tokenizer.convert_tokens_to_ids(true_label)
+        true_label_id = self.tokenizer.convert_tokens_to_ids(true_label)
         
         # create answer label
         tensor_answer_label = torch.LongTensor([-100]*512)
         tensor_answer_label[output_tokens_mask_index] = true_label_id
 
         # inputs
-        input_ids = torch.FloatTensor(tokenizer.convert_tokens_to_ids(output_tokens))
+        input_ids = torch.LongTensor(self.tokenizer.convert_tokens_to_ids(output_tokens))
 
         token_type_ids = [0]*len(question_tokens + [SEP]) + [1]*len(context_tokens + [SEP]) + [2]*len(answer_span_tokens)
         while len(token_type_ids) < 512:
             token_type_ids.append(3)
         assert len(token_type_ids) == 512
-        token_type_ids = torch.FloatTensor(token_type_ids)
+        token_type_ids = torch.LongTensor(token_type_ids)
         
         attention_mask = [1]*len(output_tokens)
         while len(attention_mask) < 512:
             attention_mask.append(0)
         assert len(attention_mask) == 512
-        attention_mask = torch.FloatTensor(attention_mask)
+        attention_mask = torch.LongTensor(attention_mask)
 
-        return {
-            'input_ids':input_ids,
-            'token_type_ids':token_type_ids,
-            'attention_mask':attention_mask,
-            'label':tensor_answer_label
-        }
+        # return {
+        #     'input_ids':input_ids,
+        #     'token_type_ids':token_type_ids,
+        #     'attention_mask':attention_mask,
+        #     'label':tensor_answer_label
+        # }
+
+        return [input_ids,token_type_ids,attention_mask,tensor_answer_label]
 
     def __len__(self):
         return len(self.data_lines)
