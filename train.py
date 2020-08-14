@@ -59,15 +59,14 @@ if __name__ == "__main__":
             predict_ids = []
             target_ids = []
             for i,masked_index in enumerate(masked_indexs):
-                predict_token_id = _predict_ids[i][masked_index]
+                predict_token_id = _predict_ids[i][masked_index].to('cpu')
                 predict_ids.append(predict_token_id)
 
-                target_id = batch_dict[3][i][masked_index]
+                target_id = batch_dict[3][i][masked_index].to('cpu')
                 target_ids.append(target_id)
 
             # print(torch.argmax(logits,dim=2).shape)
             
-
             acc_t = accuracy_score(target_ids,predict_ids)
             running_acc += (acc_t - running_acc) / (batch_index + 1)
 
