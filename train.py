@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 import torch 
 from transformers import AdamW
 from sklearn.metrics import accuracy_score
+import torch.nn as nn
 
 if __name__ == "__main__":
     tokenizer = init_tokenizer("voidful/albert_chinese_tiny")
@@ -15,6 +16,9 @@ if __name__ == "__main__":
 
     # setting device    
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    if torch.cuda.device_count() > 1:
+        print(torch.cuda.device_count(), "GPUs!")
+        model = nn.DataParallel(model)
     print("using device",device)
     model.to(device)
 
@@ -44,6 +48,8 @@ if __name__ == "__main__":
                 labels = batch_dict[3]
                 )
             loss,logits = outputs[:2]
+            if(device =='cuda' and device,torch.cuda.device_count()>1):
+                loss = loss.mean()
             loss.sum().backward()
             optimizer.step()
             # scheduler.step()  # Update learning rate schedule
