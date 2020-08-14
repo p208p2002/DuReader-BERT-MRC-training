@@ -1,6 +1,6 @@
 from transformers import AlbertForMaskedLM,AlbertConfig
 from lib.tokenizer import init_tokenizer
-from lib.Dataset import DURDataset
+from lib.dataset import DURDataset
 from torch.utils.data import DataLoader
 import torch 
 from transformers import AdamW

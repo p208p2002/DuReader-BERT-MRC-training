@@ -1,5 +1,4 @@
 from lib.data_procress import load_data_from_raw as load_data
-from lib.MLDataModel import MLDataModel
 from lib.special_token_def import NO_ANSWER
 from tqdm import tqdm
 import os
