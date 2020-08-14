@@ -1,5 +1,5 @@
 from torch.utils.data.dataset import Dataset
-from special_token_def import SEP, SEP_ANSWER_START, SEP_ANSWER_END, MASK, PAD
+from .special_token_def import SEP, SEP_ANSWER_START, SEP_ANSWER_END, MASK, PAD
 from random import randint
 import torch
 
