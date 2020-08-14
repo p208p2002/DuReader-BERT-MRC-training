@@ -31,6 +31,7 @@ def make_training_data_set(f,mrc_csv_paths,data_limit=None):
             while(True):
                 #
                 _c_tokens = c_tokens[0+context_padding:_max_context_length+context_padding]
+
                 current_total_length = len(a_tokens)+len(_c_tokens)+len(q_tokens)+number_of_special_tokens
                 assert current_total_length <= 512
                 if(len(_c_tokens)<=0 or len(q_tokens)+len(_c_tokens) <= stride):
@@ -40,7 +41,10 @@ def make_training_data_set(f,mrc_csv_paths,data_limit=None):
                 question_string = tokenizer.convert_tokens_to_string(q_tokens).replace(" ","")
                 context_string = tokenizer.convert_tokens_to_string(_c_tokens).replace(" ","")
                 answer_string = tokenizer.convert_tokens_to_string(a_tokens).replace(" ","")
-                f.write(CLS+question_string+SEP+context_string+SEP+SEP_ANSWER_START+answer_string+SEP_ANSWER_END+"\n")
+                _write_str = CLS+question_string+SEP+context_string+SEP+SEP_ANSWER_START+answer_string+SEP_ANSWER_END
+                if len(tokenizer.tokenize(_write_str)) > 512:
+                    continue
+                f.write(_write_str+"\n")
 
                 #
                 context_padding += stride
