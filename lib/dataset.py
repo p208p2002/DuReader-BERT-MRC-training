@@ -29,15 +29,16 @@ class DURDataset(Dataset):
         output_tokens = question_tokens + [SEP] + context_tokens + [SEP] +answer_span_tokens
         # print(output_tokens)
 
+        #
+        output_tokens_mask_index = output_tokens.index(MASK)
+        output_tokens = output_tokens[:output_tokens_mask_index]
+        true_label_id = self.tokenizer.convert_tokens_to_ids(true_label)
+
         # padding
         len_of_output_tokens_without_padding = len(output_tokens)
         while len(output_tokens)<512:
             output_tokens.append(PAD)
         assert len(output_tokens) == 512
-
-        #
-        output_tokens_mask_index = output_tokens.index(MASK)
-        true_label_id = self.tokenizer.convert_tokens_to_ids(true_label)
         
         # create answer label
         tensor_answer_label = torch.LongTensor([-100]*512)
