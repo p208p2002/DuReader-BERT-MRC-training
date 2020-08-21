@@ -6,13 +6,15 @@ import torch
 from transformers import AdamW
 from sklearn.metrics import accuracy_score
 import torch.nn as nn
+import os
 
 if __name__ == "__main__":
+    batch_size = int(os.environ.get('MODEL_BATCH_SIZE',16))
     tokenizer = init_tokenizer("voidful/albert_chinese_tiny")
     model = AlbertForMaskedLM.from_pretrained("voidful/albert_chinese_tiny",from_tf=False)
     model.resize_token_embeddings(len(tokenizer))
-    train_dataset = DURDataset(tokenizer,'training_dataset/dev.data.cht.txt')
-    train_dataloader = DataLoader(train_dataset,batch_size=16,shuffle=True)
+    train_dataset = DURDataset(tokenizer,'training_dataset/train.data.cht.txt')
+    train_dataloader = DataLoader(train_dataset,batch_size=batch_size,shuffle=True)
 
     # setting device    
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
