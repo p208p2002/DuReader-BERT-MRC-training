@@ -58,12 +58,12 @@ def _training_assembly_line(batch_index, batch_dict, model, device, optimizer=No
 if __name__ == "__main__":
     batch_size = int(os.environ.get('MODEL_BATCH_SIZE',16))
     tokenizer = init_tokenizer("voidful/albert_chinese_tiny")
-    model = AlbertForMaskedLM.from_pretrained("voidful/albert_chinese_tiny",from_tf=False)
+    model = AlbertForMaskedLM.from_pretrained("voidful/albert_chinese_base",from_tf=False)
     model.resize_token_embeddings(len(tokenizer))
-    full_dataset = DURDataset(tokenizer,'training_dataset/dev.data.cht.txt')
+    full_dataset = DURDataset(tokenizer,'training_dataset/train.data.cht.txt')
     train_dataset, test_dataset = split_dataset(full_dataset,split_rate=0.25)
-    train_dataloader = DataLoader(train_dataset,batch_size=batch_size,shuffle=True)
-    test_dataloader = DataLoader(test_dataset,batch_size=int(batch_size/2),shuffle=False)
+    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+    test_dataloader = DataLoader(test_dataset, batch_size=int(batch_size/2), shuffle=False)
 
     # setting device    
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
